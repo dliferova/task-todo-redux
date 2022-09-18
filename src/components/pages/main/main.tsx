@@ -2,7 +2,7 @@ import React from 'react';
 import './styles.css';
 import Box from '@material-ui/core/Box';
 import {Container} from "@material-ui/core";
-import Task from "../../ui/task/task";
+import TaskList from "../../task-list/task-list";
 
 const Main = () => {
   return (
@@ -13,16 +13,8 @@ const Main = () => {
       }}
     >
       <div className="main main__container">
-        <Box
-          style={{
-            border: '1px solid #25283b'
-        }}>
-          <h2>Task List</h2>
-          <Task/>
-          <Task/>
-          <Task/>
-          <Task/>
-        </Box>
+        <TaskList/>
+
         <Box
           style={{
             border: '1px solid #25283b'
