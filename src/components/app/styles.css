@@ -1,0 +1,19 @@
+.app {
+  height: 100vh;
+  font-size: 16px;
+  line-height: 130%;
+}
+
+.app__body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: max-content 1fr max-content;
+  position: relative;
+  background-color: #151723;
+
+  color: #fff;
+  font-size: 16px;
+  line-height: 120%;
+}

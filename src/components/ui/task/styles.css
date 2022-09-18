@@ -1,0 +1,30 @@
+.task__wrapper {
+  border-bottom: 1px solid #3f4158;
+  padding: 20px 8px;
+}
+
+.task__properties-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task__properties-list li {
+  margin-right: 12px;
+}
+
+.task__properties-list li:last-of-type {
+  margin-right: 0;
+}
+
+.task-label {
+  background-color: aquamarine;
+  padding: 4px;
+  border-radius: 50%;
+  color: #3f4158;
+}
