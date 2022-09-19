@@ -1,16 +1,23 @@
 import {createAction} from '@reduxjs/toolkit';
-import {Task} from "../types/task";
 
 export enum ActionType {
   NewTaskAdded = 'task/new-task-added',
   TaskDeleted = 'task/task-deleted',
+  DetailedTaskOpen = 'task/detailed-task-open',
+}
+
+interface NewTaskRequest {
+  title: string,
+  uniqueName: string,
+  picked: string,
+  color: string
 }
 
 export const newTaskAdded = createAction(
   ActionType.NewTaskAdded,
-  (task: Task) => ({
+  (request: NewTaskRequest) => ({
     payload: {
-      task,
+      request
     },
   }),
 );
@@ -23,3 +30,12 @@ export const taskDeleted = createAction(
     },
   }),
 );
+
+export const detailedTaskOpened = createAction(
+  ActionType.DetailedTaskOpen,
+  (taskId: string) => ({
+    payload: {
+      taskId,
+    }
+  })
+)

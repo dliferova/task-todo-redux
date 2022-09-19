@@ -1,14 +1,11 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import ColorPickerField from 'material-ui-color-picker';
-import { nanoid } from 'nanoid'
 import {Formik, FormikHelpers, Form, Field} from 'formik';
 import {newTaskAdded} from "../../store/actions";
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 
 interface Values {
-  id: string,
   title: string,
   uniqueName: string,
   picked: string,
@@ -21,7 +18,6 @@ const AddNewTaskForm = () => {
   return (
     <Formik
       initialValues={{
-        id: nanoid(),
         title: '',
         uniqueName: '',
         picked: '',
@@ -31,7 +27,14 @@ const AddNewTaskForm = () => {
         values: Values,
         {setSubmitting}: FormikHelpers<Values>
       ) => {
-        dispatch(newTaskAdded(values));
+        console.log(values)
+        dispatch(newTaskAdded({
+            title: values.title,
+            uniqueName: values.uniqueName,
+            picked: values.picked,
+            color: values.color
+          }
+        ));
         setSubmitting(true)
       }}
     >
@@ -39,11 +42,17 @@ const AddNewTaskForm = () => {
         <Form>
           <div className="field-group">
             <label htmlFor="title">Task Title</label>
-            <TextField id="title" name="title" placeholder="...Add what you want to do"/>
+            <Field
+              id="title"
+              name="title"
+              placeholder="...Add what you want to do"/>
           </div>
           <div className="field-group">
             <label htmlFor="uniqueName">Unique Name</label>
-            <TextField id="uniqueName" name="uniqueName" placeholder="Add special name"/>
+            <Field
+              id="uniqueName"
+              name="uniqueName"
+              placeholder="Add special name"/>
           </div>
           <div className="field-group" id="radio-group">
             <p>Task types</p>

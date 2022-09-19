@@ -25,13 +25,21 @@ const TaskList = (props: TaskListProps): JSX.Element => {
   return (
     <Box
       style={{
-        border: '1px solid #25283b'
+        borderRight: '1px solid #25283b',
+        padding: '10px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
       }}>
-      <h2>Task List</h2>
-      <ul className="task-list">
-        {props.tasks.map((item, index) =>
-          <TaskComponent key={index} task={item}/>
-        )}
+      <div>
+        <h2>Task List</h2>
+        <ul className="task-list">
+          {props.tasks.map((item, index) =>
+            <TaskComponent key={index} task={item}/>
+          )}
+        </ul>
+      </div>
+      <div className="bottom">
         <Button
           variant="outlined"
           color="primary"
@@ -40,6 +48,8 @@ const TaskList = (props: TaskListProps): JSX.Element => {
         >
           Add new task
         </Button>
+      </div>
+
         <Modal
           open={newTaskModalOpen}
           onClose={onNewTaskModalClosed}
@@ -48,7 +58,6 @@ const TaskList = (props: TaskListProps): JSX.Element => {
         >
           <NewTaskModal  />
         </Modal>
-      </ul>
     </Box>
   );
 };

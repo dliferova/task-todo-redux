@@ -7,7 +7,7 @@ const Header = () => {
       maxWidth={"xl"}
       style={{
         padding: '20px 24px',
-        marginBottom: '110px'
+        marginBottom: '70px'
       }}
     >
       <Typography

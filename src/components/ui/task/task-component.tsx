@@ -7,7 +7,7 @@ import Menu, {MenuProps} from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {Task} from "../../../types/task";
-import {taskDeleted} from "../../../store/actions";
+import {detailedTaskOpened, taskDeleted} from "../../../store/actions";
 
 const StyledMenu = withStyles({
   paper: {
@@ -41,7 +41,6 @@ const StyledMenuItem = withStyles((theme) => ({
 }))(MenuItem);
 
 interface TaskComponentProps {
-  key: number,
   task: Task
 }
 
@@ -57,15 +56,25 @@ const TaskComponent = (props: TaskComponentProps) => {
     setAnchorEl(null);
   };
 
+  const handleClickMenu = () => {
+    dispatch(detailedTaskOpened(props.task.id))
+  }
+
   return (
-    <div className="task">
+    <div
+      className="task"
+      onClick={handleClickMenu}
+    >
       <div className="task__wrapper">
         <ul className="task__properties-list">
           <li className="task__properties-item">
-            <span>{props.task.title}</span>
+            <div className="task__title">
+              <span>{props.task?.title}</span>
+              <span className="task__title_small">{props.task?.uniqueName}</span>
+            </div>
           </li>
           <li className="task__properties-item task-label">
-            <span>{props.task.picked}</span>
+            <span>{props.task?.picked}</span>
           </li>
           <li className="task__properties-item">
             <span>2 more</span>

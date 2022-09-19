@@ -1,4 +1,10 @@
 .main__container {
   display: grid;
+  border: 1px solid #25283b;
   grid-template-columns: repeat(3, 1fr);
+  min-height: 850px;
+}
+
+.hidden {
+  display: none;
 }

@@ -4,9 +4,8 @@
 }
 
 .task__properties-list {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr) repeat(2, max-content);
   align-items: center;
 
   list-style-type: none;
@@ -20,6 +19,17 @@
 
 .task__properties-list li:last-of-type {
   margin-right: 0;
+  justify-self: end;
+}
+
+.task__title {
+  display: flex;
+  flex-direction: column;
+}
+
+.task__title_small {
+  font-size: 12px;
+  color: darkgray;
 }
 
 .task-label {
