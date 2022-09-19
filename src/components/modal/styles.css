@@ -1,0 +1,10 @@
+.modal__wrapper {
+  position: relative;
+}
+
+.modal__icon {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+

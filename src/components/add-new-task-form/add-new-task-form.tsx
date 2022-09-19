@@ -1,11 +1,14 @@
 import React from 'react';
-import * as Yup from 'yup';
+import {useDispatch} from 'react-redux';
 import ColorPickerField from 'material-ui-color-picker';
-import { Formik, FormikHelpers, FormikProps, FormikErrors, Form, Field } from 'formik';
+import { nanoid } from 'nanoid'
+import {Formik, FormikHelpers, Form, Field} from 'formik';
+import {newTaskAdded} from "../../store/actions";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
-const sleep = (ms: any) => new Promise((r) => setTimeout(r, ms));
-
-interface Values  {
+interface Values {
+  id: string,
   title: string,
   uniqueName: string,
   picked: string,
@@ -13,9 +16,12 @@ interface Values  {
 }
 
 const AddNewTaskForm = () => {
+  const dispatch = useDispatch();
+
   return (
     <Formik
       initialValues={{
+        id: nanoid(),
         title: '',
         uniqueName: '',
         picked: '',
@@ -25,61 +31,68 @@ const AddNewTaskForm = () => {
         values: Values,
         {setSubmitting}: FormikHelpers<Values>
       ) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 500);
+        dispatch(newTaskAdded(values));
+        setSubmitting(true)
       }}
     >
-      {({ values }) => (
+      {({values}) => (
         <Form>
-          <div>
+          <div className="field-group">
             <label htmlFor="title">Task Title</label>
-            <Field id="title" name="title" placeholder="...Add what you want to do" />
+            <TextField id="title" name="title" placeholder="...Add what you want to do"/>
           </div>
-          <div>
+          <div className="field-group">
             <label htmlFor="uniqueName">Unique Name</label>
-            <Field id="uniqueName" name="uniqueName" placeholder="Add special name" />
+            <TextField id="uniqueName" name="uniqueName" placeholder="Add special name"/>
           </div>
-          <div id="radio-group">
+          <div className="field-group" id="radio-group">
             <p>Task types</p>
-            <div role="group" aria-labelledby="radio-group">
-              <label>
-                <Field type="radio" name="picked" value="type-personal" />
-                Personal task
-              </label>
-              <label>
-                <Field type="radio" name="picked" value="type-marketing" />
-                Marketing task
-              </label>
-              <label>
-                <Field type="radio" name="picked" value="type-sales" />
-                Sales task
-              </label>
-              <label>
-                <Field type="radio" name="picked" value="type-development" />
-                Development task
-              </label>
-              <label>
-                <Field type="radio" name="picked" value="type-hr" />
-                HR task
-              </label>
-            </div>
+            <ul className="types-list" role="group" aria-labelledby="radio-group">
+              <li>
+                <label>
+                  <Field type="radio" name="picked" value="type-personal"/>
+                  Personal task
+                </label>
+              </li>
+              <li>
+                <label>
+                  <Field type="radio" name="picked" value="type-marketing"/>
+                  Marketing task
+                </label>
+              </li>
+              <li>
+                <label>
+                  <Field type="radio" name="picked" value="type-sales"/>
+                  Sales task
+                </label>
+              </li>
+              <li>
+                <label>
+                  <Field type="radio" name="picked" value="type-development"/>
+                  Development task
+                </label>
+              </li>
+              <li>
+                <label>
+                  <Field type="radio" name="picked" value="type-hr"/>
+                  HR task
+                </label>
+              </li>
+            </ul>
           </div>
-          <div>
-            <label htmlFor="color">Unique Name</label>
+          <div className="field-group">
+            <label htmlFor="color">Change color</label>
             <Field
               id="color"
               name="color"
               component={ColorPickerField}
             />
           </div>
-
-          <button type="submit">Submit</button>
+          <Button color="primary" variant="contained" fullWidth type="submit">
+            Submit
+          </Button>
         </Form>
       )}
-
-
     </Formik>
   );
 };

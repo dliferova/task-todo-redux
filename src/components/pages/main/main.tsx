@@ -1,10 +1,14 @@
 import React from 'react';
+import {useSelector} from "react-redux";
 import './styles.css';
 import Box from '@material-ui/core/Box';
 import {Container} from "@material-ui/core";
 import TaskList from "../../task-list/task-list";
+import {getTaskList} from "../../../store/task/selectors";
 
 const Main = () => {
+  const tasks = useSelector(getTaskList);
+
   return (
     <Container
       maxWidth={"xl"}
@@ -13,8 +17,7 @@ const Main = () => {
       }}
     >
       <div className="main main__container">
-        <TaskList/>
-
+        <TaskList tasks={tasks}/>
         <Box
           style={{
             border: '1px solid #25283b'

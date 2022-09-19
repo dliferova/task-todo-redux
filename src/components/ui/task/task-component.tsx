@@ -1,10 +1,13 @@
 import React from 'react';
 import './styles.css';
-import { withStyles } from '@material-ui/core/styles';
+import {useDispatch} from "react-redux";
+import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Menu, {MenuProps} from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import {Task} from "../../../types/task";
+import {taskDeleted} from "../../../store/actions";
 
 const StyledMenu = withStyles({
   paper: {
@@ -37,8 +40,14 @@ const StyledMenuItem = withStyles((theme) => ({
   },
 }))(MenuItem);
 
-const Task = () => {
+interface TaskComponentProps {
+  key: number,
+  task: Task
+}
+
+const TaskComponent = (props: TaskComponentProps) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+  const dispatch = useDispatch();
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
@@ -53,44 +62,49 @@ const Task = () => {
       <div className="task__wrapper">
         <ul className="task__properties-list">
           <li className="task__properties-item">
-            <span>Jog around the park 3x</span>
+            <span>{props.task.title}</span>
           </li>
           <li className="task__properties-item task-label">
-            <span>sales task</span>
+            <span>{props.task.picked}</span>
           </li>
           <li className="task__properties-item">
             <span>2 more</span>
           </li>
-          <li><div className="task__toggle">
-            <Button
-              aria-controls="customized-menu"
-              aria-haspopup="true"
-              variant="contained"
-              color="primary"
-              onClick={handleClick}
-            >
-              ...
-            </Button>
+          <li>
+            <div className="task__toggle">
+              <Button
+                aria-controls="customized-menu"
+                aria-haspopup="true"
+                variant="contained"
+                color="primary"
+                onClick={handleClick}
+              >
+                ...
+              </Button>
 
-            <StyledMenu
-              id="customized-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <StyledMenuItem>
-                <ListItemText primary="Delete" />
-              </StyledMenuItem>
-              <StyledMenuItem>
-                <ListItemText primary="Copy" />
-              </StyledMenuItem>
-            </StyledMenu>
-          </div></li>
+              <StyledMenu
+                id="customized-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <StyledMenuItem>
+                  <ListItemText
+                    primary="Delete"
+                    onClick={() => dispatch(taskDeleted(props.task.id))}
+                  />
+                </StyledMenuItem>
+                <StyledMenuItem>
+                  <ListItemText primary="Copy"/>
+                </StyledMenuItem>
+              </StyledMenu>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
   );
 };
 
-export default Task;
+export default TaskComponent;

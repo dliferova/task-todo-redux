@@ -2,11 +2,16 @@ import React from 'react';
 import './styles.css';
 import Box from "@material-ui/core/Box";
 import Button from '@material-ui/core/Button';
-import Task from "../ui/task/task";
+import TaskComponent from "../ui/task/task-component";
 import Modal from "@material-ui/core/Modal";
 import NewTaskModal from "../modal/modal";
+import {Task} from '../../types/task';
 
-const TaskList = () => {
+type TaskListProps = {
+  tasks: Task[]
+}
+
+const TaskList = (props: TaskListProps): JSX.Element => {
   const [newTaskModalOpen, setNewTaskModalOpen] = React.useState(false);
 
   const onAddNewTaskClick = () => {
@@ -24,19 +29,13 @@ const TaskList = () => {
       }}>
       <h2>Task List</h2>
       <ul className="task-list">
-        <li>
-          <Task/>
-        </li>
-        <li>
-          <Task/>
-        </li>
+        {props.tasks.map((item, index) =>
+          <TaskComponent key={index} task={item}/>
+        )}
         <Button
           variant="outlined"
           color="primary"
           href="#add-new-task"
-          style={{
-            marginBottom: "18px"
-          }}
           onClick={onAddNewTaskClick}
         >
           Add new task
@@ -47,7 +46,7 @@ const TaskList = () => {
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
         >
-          <NewTaskModal/>
+          <NewTaskModal  />
         </Modal>
       </ul>
     </Box>

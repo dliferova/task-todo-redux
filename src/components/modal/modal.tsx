@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
+import './styles.css';
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+import CloseIcon from '@material-ui/icons/Close';
 import AddNewTaskForm from "../add-new-task-form/add-new-task-form";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,8 +26,14 @@ const NewTaskModal = React.forwardRef(() => {
 
   return (
     <div className={classes.paper}>
-      <h2 id="simple-modal-title">Add new task</h2>
-      <AddNewTaskForm />
+      <div className="modal__wrapper">
+        <CloseIcon
+          className="modal__icon"
+          color="primary"
+        />
+        <h2 id="simple-modal-title">Add new task</h2>
+        <AddNewTaskForm />
+      </div>
     </div>
   );
 });

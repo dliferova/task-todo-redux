@@ -7,3 +7,14 @@
   flex-direction: column;
 }
 
+.field-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.types-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
