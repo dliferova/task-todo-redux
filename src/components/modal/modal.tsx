@@ -1,5 +1,6 @@
 import React from 'react';
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+import AddNewTaskForm from "../add-new-task-form/add-new-task-form";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,10 +24,7 @@ const NewTaskModal = React.forwardRef(() => {
   return (
     <div className={classes.paper}>
       <h2 id="simple-modal-title">Add new task</h2>
-      {/* Add Formik */}
-      <p id="simple-modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p>
+      <AddNewTaskForm />
     </div>
   );
 });
