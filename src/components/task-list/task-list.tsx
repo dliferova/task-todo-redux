@@ -1,17 +1,31 @@
 import React from 'react';
 import './styles.css';
+import {useDispatch} from "react-redux";
 import Box from "@material-ui/core/Box";
 import Button from '@material-ui/core/Button';
 import TaskComponent from "../task/task-component";
 import Modal from "@material-ui/core/Modal";
 import NewTaskModal from "../modal/modal";
 import {Task} from '../../types/task';
+import {Values} from "../add-new-task-form/add-new-task-form";
+import {newTaskAdded, taskDeleted} from "../../store/actions";
 
 type TaskListProps = {
   tasks: Task[]
 }
 
 const TaskList = (props: TaskListProps): JSX.Element => {
+  const dispatch = useDispatch();
+
+  const handleSubmit = (values: Values) => {
+    dispatch(newTaskAdded({
+      title: values.title,
+      uniqueName: values.uniqueName,
+      picked: values.picked,
+      color: values.color
+    }));
+  }
+
   const [newTaskModalOpen, setNewTaskModalOpen] = React.useState(false);
 
   const onAddNewTaskClick = () => {
@@ -21,6 +35,10 @@ const TaskList = (props: TaskListProps): JSX.Element => {
   const onNewTaskModalClosed = () => {
     setNewTaskModalOpen(false);
   };
+
+  const handleDelete = (id: string) => {
+   dispatch(taskDeleted(id))
+  }
 
   return (
     <Box
@@ -35,7 +53,7 @@ const TaskList = (props: TaskListProps): JSX.Element => {
         <h2>Task List</h2>
         <ul className="task-list">
           {props.tasks.map((item, index) =>
-            <TaskComponent key={index} task={item}/>
+            <TaskComponent onDelete={handleDelete} key={index} task={item}/>
           )}
         </ul>
       </div>
@@ -56,7 +74,7 @@ const TaskList = (props: TaskListProps): JSX.Element => {
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
         >
-          <NewTaskModal  />
+          <NewTaskModal onFormSubmit={handleSubmit}/>
         </Modal>
     </Box>
   );

@@ -14,5 +14,5 @@ export type Task = {
   picked: string,
   color: string,
   description?: string,
-  children?: Subtask[]
+  children: Subtask[]
 }

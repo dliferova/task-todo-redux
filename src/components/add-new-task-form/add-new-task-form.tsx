@@ -5,17 +5,22 @@ import {Formik, FormikHelpers, Form, Field} from 'formik';
 import {newTaskAdded} from "../../store/actions";
 import Button from '@material-ui/core/Button';
 
-interface Values {
+export interface Values {
   title: string,
   uniqueName: string,
   picked: string,
   color: string
 }
 
-const AddNewTaskForm = () => {
-  const dispatch = useDispatch();
+type AddNewTaskFormPropsType = {
+  onFormSubmit: (values: Values) => void;
+}
+
+const AddNewTaskForm = ({onFormSubmit}: AddNewTaskFormPropsType) => {
+
 
   return (
+
     <Formik
       initialValues={{
         title: '',
@@ -27,15 +32,8 @@ const AddNewTaskForm = () => {
         values: Values,
         {setSubmitting}: FormikHelpers<Values>
       ) => {
-        console.log(values)
-        dispatch(newTaskAdded({
-            title: values.title,
-            uniqueName: values.uniqueName,
-            picked: values.picked,
-            color: values.color
-          }
-        ));
-        setSubmitting(true)
+        onFormSubmit(values)
+        setSubmitting(false)
       }}
     >
       {({values}) => (
@@ -59,31 +57,31 @@ const AddNewTaskForm = () => {
             <ul className="types-list" role="group" aria-labelledby="radio-group">
               <li>
                 <label>
-                  <Field type="radio" name="picked" value="type-personal"/>
+                  <Field type="radio" name="picked" value="personal"/>
                   Personal task
                 </label>
               </li>
               <li>
                 <label>
-                  <Field type="radio" name="picked" value="type-marketing"/>
+                  <Field type="radio" name="picked" value="marketing"/>
                   Marketing task
                 </label>
               </li>
               <li>
                 <label>
-                  <Field type="radio" name="picked" value="type-sales"/>
+                  <Field type="radio" name="picked" value="sales"/>
                   Sales task
                 </label>
               </li>
               <li>
                 <label>
-                  <Field type="radio" name="picked" value="type-development"/>
+                  <Field type="radio" name="picked" value="development"/>
                   Development task
                 </label>
               </li>
               <li>
                 <label>
-                  <Field type="radio" name="picked" value="type-hr"/>
+                  <Field type="radio" name="picked" value="hr"/>
                   HR task
                 </label>
               </li>

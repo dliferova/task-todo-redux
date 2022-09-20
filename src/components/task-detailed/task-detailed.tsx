@@ -1,14 +1,41 @@
 import React from 'react';
 import './styles.css';
+import {useDispatch} from "react-redux";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import {Task} from "../../types/task";
+import NewTaskModal from "../modal/modal";
+import Modal from "@material-ui/core/Modal";
+import ControlledSelect from "../../ui/select/select";
+import AddNewTaskForm, {Values} from "../add-new-task-form/add-new-task-form";
+import {newSubtaskAdded, newTaskAdded} from "../../store/actions";
 
 type TaskDetailedProps = {
-  task: Task
+  task: Task,
 }
 
 const TaskDetailed = ({task}: TaskDetailedProps) => {
+  const dispatch = useDispatch();
+
+  const handleSubmit = (values: Values) => {
+    dispatch(newSubtaskAdded({
+      title: values.title,
+      uniqueName: values.uniqueName,
+      picked: values.picked,
+      color: values.color
+    }));
+  }
+
+  const [newTaskModalOpen, setNewTaskModalOpen] = React.useState(false);
+
+  const onAddNewTaskClick = () => {
+    setNewTaskModalOpen(true);
+  };
+
+  const onNewTaskModalClosed = () => {
+    setNewTaskModalOpen(false);
+  };
+
   return (
     <Box
       style={{
@@ -23,34 +50,45 @@ const TaskDetailed = ({task}: TaskDetailedProps) => {
         <h2>Task Details</h2>
 
         <div className="detailed-task">
-          <div className="detailed-task__wrapper">
-            <div className="detailed-task__header">
+          <ul className="detailed-task__param-list">
+            <li>
               <h3>{task.title}</h3>
               <span>{task.uniqueName}</span>
-            </div>
-            <div className="detailed-task__body">
+            </li>
+            <li>
               <div className="detailed-task__type">
-                <p>{task.picked}</p>
+                <ControlledSelect/>
               </div>
-              <div className="detailed-task__colorpicker">
-                <div>{task.color}</div>
-              </div>
-              <div className="detailed-task__description">
-                <p>{task.description}</p>
-              </div>
-            </div>
-          </div>
+            </li>
+            <li>
+              <div>{task.color}</div>
+            </li>
+            <li>
+              <p>{task.description}</p>
+            </li>
+          </ul>
         </div>
       </div>
+
       <div className="bottom">
         <Button
           variant="outlined"
           color="primary"
           href="#add-new-task"
+          onClick={onAddNewTaskClick}
         >
           Add subtask
         </Button>
       </div>
+
+      <Modal
+        open={newTaskModalOpen}
+        onClose={onNewTaskModalClosed}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <NewTaskModal onFormSubmit={handleSubmit}/>
+      </Modal>
     </Box>
   )
 };

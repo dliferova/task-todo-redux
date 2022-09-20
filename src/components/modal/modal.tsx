@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './styles.css';
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import CloseIcon from '@material-ui/icons/Close';
-import AddNewTaskForm from "../add-new-task-form/add-new-task-form";
+import AddNewTaskForm, {Values} from "../add-new-task-form/add-new-task-form";
 import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -21,7 +21,11 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const NewTaskModal = React.forwardRef(() => {
+type NewTaskModalPropsType = {
+  onFormSubmit: (values: Values) => void;
+}
+
+const NewTaskModal = React.forwardRef(({onFormSubmit}: NewTaskModalPropsType, ref) => {
   const classes = useStyles();
 
   return (
@@ -32,7 +36,7 @@ const NewTaskModal = React.forwardRef(() => {
           color="primary"
         />
         <h2 id="simple-modal-title">Add new task</h2>
-        <AddNewTaskForm />
+        <AddNewTaskForm onFormSubmit={onFormSubmit}/>
       </div>
     </div>
   );

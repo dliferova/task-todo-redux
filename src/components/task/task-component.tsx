@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import Menu, {MenuProps} from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import {Task} from "../../types/task";
+import {Subtask, Task} from "../../types/task";
 import {detailedTaskOpened, taskDeleted} from "../../store/actions";
 
 const StyledMenu = withStyles({
@@ -41,12 +41,15 @@ const StyledMenuItem = withStyles((theme) => ({
 }))(MenuItem);
 
 interface TaskComponentProps {
-  task: Task
+  task: Task | Subtask,
+  onDelete: (id: string) => void
 }
 
 const TaskComponent = (props: TaskComponentProps) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const dispatch = useDispatch();
+
+  const children = props.task.hasOwnProperty("children") ? (props.task as Task).children : []
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
@@ -69,15 +72,15 @@ const TaskComponent = (props: TaskComponentProps) => {
         >
           <li className="task__properties-item">
             <div className="task__title">
-              <span>{props.task?.title}</span>
-              <span className="task__title_small">{props.task?.uniqueName}</span>
+              <span>{props.task.title}</span>
+              <span className="task__title_small">{props.task.uniqueName}</span>
             </div>
           </li>
           <li className="task__properties-item task-label">
-            <span>{props.task?.picked}</span>
+            <span>{props.task.picked}</span>
           </li>
           <li className="task__properties-item">
-            {props.task?.children?.length !== 0 ? <span>{props.task?.children?.length} subtask</span> : null}
+            {children.length !== 0 ? <span>{children.length} subtask</span> : null}
           </li>
         </ul>
         <div className="task__toggle">
@@ -101,7 +104,7 @@ const TaskComponent = (props: TaskComponentProps) => {
             <StyledMenuItem>
               <ListItemText
                 primary="Delete"
-                onClick={() => dispatch(taskDeleted(props.task.id))}
+                onClick={() => props.onDelete(props.task.id)}
               />
             </StyledMenuItem>
             <StyledMenuItem>
