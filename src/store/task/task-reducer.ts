@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {Subtask, Task} from '../../types/task';
+import {Task} from '../../types/task';
 import {
   detailedTaskOpened,
   newSubtaskAdded,
@@ -32,6 +32,7 @@ const initialState: StateTypes = {
         picked: 'personal',
         title: 'subtask1',
         uniqueName: 'subtask1',
+        children: null
       },
       {
         id: 'X1Cinn',
@@ -40,6 +41,7 @@ const initialState: StateTypes = {
         picked: 'personal',
         title: 'subtask2',
         uniqueName: 'subtask2',
+        children: null
       }
     ]
   },
@@ -55,7 +57,7 @@ const initialState: StateTypes = {
   detailedTaskId: null,
 }
 
-const createNewTask = (data: NewTaskRequest): Task => {
+const createNewTask = (data: NewTaskRequest, isSubtask: Boolean): Task => {
   return {
     id: nanoid(),
     color: data.color,
@@ -63,26 +65,14 @@ const createNewTask = (data: NewTaskRequest): Task => {
     picked: data.picked,
     title: data.title,
     uniqueName: data.uniqueName,
-    children: []
+    children: isSubtask ? null : []
   }
 }
-
-const createNewSubtask = (data: NewTaskRequest): Subtask => {
-  return {
-    id: nanoid(),
-    color: data.color,
-    description: "Default task description",
-    picked: data.picked,
-    title: data.title,
-    uniqueName: data.uniqueName
-  }
-}
-
 
 export const tasksReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(newTaskAdded, (state, action) => {
-      const newTask: Task = createNewTask(action.payload.request)
+      const newTask: Task = createNewTask(action.payload.request, false)
       state.tasks.push(newTask)
     })
     .addCase(taskDeleted, (state, action) => {
@@ -105,14 +95,14 @@ export const tasksReducer = createReducer(initialState, (builder) => {
     })
     .addCase(newSubtaskAdded, (state, action) => {
       const parent = state.tasks.find(task => task.id === state.detailedTaskId)
-      const newSubtask = createNewSubtask(action.payload.request)
-      if (parent) {
+      const newSubtask = createNewTask(action.payload.request, true)
+      if (parent && parent.children) {
         parent.children.push(newSubtask)
       }
     })
     .addCase(subtaskDeleted, (state, action) => {
       const parent = state.tasks.find(task => task.id === state.detailedTaskId)
-      if (parent) {
+      if (parent && parent.children) {
         const childIndex = parent.children.findIndex(task => task.id === action.payload.subtaskId);
         parent.children =
           [...parent.children.slice(0, childIndex),

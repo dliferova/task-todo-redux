@@ -6,8 +6,8 @@ import Button from '@material-ui/core/Button';
 import Menu, {MenuProps} from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import {Subtask, Task} from "../../types/task";
-import {detailedTaskOpened, taskDeleted} from "../../store/actions";
+import {Task} from "../../types/task";
+import {detailedTaskOpened} from "../../store/actions";
 
 const StyledMenu = withStyles({
   paper: {
@@ -41,7 +41,7 @@ const StyledMenuItem = withStyles((theme) => ({
 }))(MenuItem);
 
 interface TaskComponentProps {
-  task: Task | Subtask,
+  task: Task,
   onDelete: (id: string) => void
 }
 
@@ -49,7 +49,7 @@ const TaskComponent = (props: TaskComponentProps) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const dispatch = useDispatch();
 
-  const children = props.task.hasOwnProperty("children") ? (props.task as Task).children : []
+  const children = props.task.children ? props.task.children : [];
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);

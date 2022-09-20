@@ -29,7 +29,7 @@ const SubtaskList = ({parentTask}: SubtaskListProps) => {
       <div>
         <h2>Subtask List</h2>
         <ul className="task-list">
-          {parentTask.children.map((item, index) =>
+          {parentTask.children?.map((item, index) =>
             <TaskComponent onDelete={handleDelete} key={index} task={item}/>
           )}
         </ul>
