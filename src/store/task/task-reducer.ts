@@ -15,15 +15,34 @@ const initialState: StateTypes = {
     description: 'Default task description',
     picked: 'type-personal',
     title: 'task1',
-    uniqueName: 'task1'
+    uniqueName: 'task1',
+    children: [
+      {
+        id: 'X1CEbGsHfda23FHS_63VJE8',
+        color: '',
+        description: 'Default subtask description',
+        picked: 'type-personal',
+        title: 'subtask1',
+        uniqueName: 'subtask1',
+      },
+      {
+        id: 'X1CEbGsHfda23FHS_63VJE8',
+        color: '',
+        description: 'Default task description',
+        picked: 'type-personal',
+        title: 'subtask2',
+        uniqueName: 'subtask2',
+      }
+    ]
   },
     {
       id: 'cbzVYQX_lubakjh9CoWsH',
       color: '',
-      description: 'Default task description',
+      description: 'Default subtask description',
       picked: 'type-personal',
       title: 'task2',
-      uniqueName: 'task2'
+      uniqueName: 'task2',
+      children: []
     }],
   detailedTask: null,
 }

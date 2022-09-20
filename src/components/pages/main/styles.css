@@ -2,9 +2,6 @@
   display: grid;
   border: 1px solid #25283b;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-areas: "tasks details subtask";
   min-height: 850px;
-}
-
-.hidden {
-  display: none;
 }

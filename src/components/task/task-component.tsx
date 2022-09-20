@@ -6,8 +6,8 @@ import Button from '@material-ui/core/Button';
 import Menu, {MenuProps} from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import {Task} from "../../../types/task";
-import {detailedTaskOpened, taskDeleted} from "../../../store/actions";
+import {Task} from "../../types/task";
+import {detailedTaskOpened, taskDeleted} from "../../store/actions";
 
 const StyledMenu = withStyles({
   paper: {
@@ -61,12 +61,12 @@ const TaskComponent = (props: TaskComponentProps) => {
   }
 
   return (
-    <div
-      className="task"
-      onClick={handleClickMenu}
-    >
+    <div className="task">
       <div className="task__wrapper">
-        <ul className="task__properties-list">
+        <ul
+          className="task__properties-list"
+          onClick={handleClickMenu}
+        >
           <li className="task__properties-item">
             <div className="task__title">
               <span>{props.task?.title}</span>
@@ -77,40 +77,38 @@ const TaskComponent = (props: TaskComponentProps) => {
             <span>{props.task?.picked}</span>
           </li>
           <li className="task__properties-item">
-            <span>2 more</span>
-          </li>
-          <li>
-            <div className="task__toggle">
-              <Button
-                aria-controls="customized-menu"
-                aria-haspopup="true"
-                variant="contained"
-                color="primary"
-                onClick={handleClick}
-              >
-                ...
-              </Button>
-
-              <StyledMenu
-                id="customized-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <StyledMenuItem>
-                  <ListItemText
-                    primary="Delete"
-                    onClick={() => dispatch(taskDeleted(props.task.id))}
-                  />
-                </StyledMenuItem>
-                <StyledMenuItem>
-                  <ListItemText primary="Copy"/>
-                </StyledMenuItem>
-              </StyledMenu>
-            </div>
+            {props.task?.children?.length !== 0 ? <span>{props.task?.children?.length} subtask</span> : null}
           </li>
         </ul>
+        <div className="task__toggle">
+          <Button
+            aria-controls="customized-menu"
+            aria-haspopup="true"
+            variant="contained"
+            color="primary"
+            onClick={handleClick}
+          >
+            ...
+          </Button>
+
+          <StyledMenu
+            id="customized-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <StyledMenuItem>
+              <ListItemText
+                primary="Delete"
+                onClick={() => dispatch(taskDeleted(props.task.id))}
+              />
+            </StyledMenuItem>
+            <StyledMenuItem>
+              <ListItemText primary="Copy"/>
+            </StyledMenuItem>
+          </StyledMenu>
+        </div>
       </div>
     </div>
   );

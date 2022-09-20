@@ -2,7 +2,7 @@ import React from 'react';
 import './styles.css';
 import Box from "@material-ui/core/Box";
 import Button from '@material-ui/core/Button';
-import TaskComponent from "../ui/task/task-component";
+import TaskComponent from "../task/task-component";
 import Modal from "@material-ui/core/Modal";
 import NewTaskModal from "../modal/modal";
 import {Task} from '../../types/task';
