@@ -42,7 +42,7 @@ const StyledMenuItem = withStyles((theme) => ({
 
 interface TaskComponentProps {
   task: Task,
-  onDelete: (id: string) => void
+  onDelete: (id: string) => void,
 }
 
 const TaskComponent = (props: TaskComponentProps) => {
@@ -77,7 +77,7 @@ const TaskComponent = (props: TaskComponentProps) => {
             </div>
           </li>
           <li className="task__properties-item task-label">
-            <span>{props.task.picked}</span>
+            <span>{props.task.type}</span>
           </li>
           <li className="task__properties-item">
             {children.length !== 0 ? <span>{children.length} subtask</span> : null}

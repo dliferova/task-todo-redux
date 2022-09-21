@@ -13,7 +13,7 @@ export enum ActionType {
 export interface NewTaskRequest {
   title: string,
   uniqueName: string,
-  picked: string,
+  selectedType: string,
   color: string
 }
 

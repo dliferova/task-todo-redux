@@ -23,7 +23,7 @@ const Main = () => {
         {detailedTask ?
           <>
             <TaskDetailed task={detailedTask} />
-            <SubtaskList parentTask={detailedTask}/>
+            <SubtaskList children={detailedTask.children}/>
           </>
           :null
         }

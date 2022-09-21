@@ -1,4 +1,5 @@
 import React from 'react';
+import {Formik, FormikHelpers, Form, Field} from 'formik';
 import './styles.css';
 import {useDispatch} from "react-redux";
 import Button from "@material-ui/core/Button";
@@ -7,8 +8,9 @@ import {Task} from "../../types/task";
 import NewTaskModal from "../modal/modal";
 import Modal from "@material-ui/core/Modal";
 import ControlledSelect from "../../ui/select/select";
-import AddNewTaskForm, {Values} from "../add-new-task-form/add-new-task-form";
-import {newSubtaskAdded, newTaskAdded} from "../../store/actions";
+import {Values} from "../add-new-task-form/add-new-task-form";
+import {newSubtaskAdded} from "../../store/actions";
+import ColorPickerField from "material-ui-color-picker";
 
 type TaskDetailedProps = {
   task: Task,
@@ -21,7 +23,7 @@ const TaskDetailed = ({task}: TaskDetailedProps) => {
     dispatch(newSubtaskAdded({
       title: values.title,
       uniqueName: values.uniqueName,
-      picked: values.picked,
+      selectedType: values.selectedType,
       color: values.color
     }));
   }
@@ -48,26 +50,51 @@ const TaskDetailed = ({task}: TaskDetailedProps) => {
       }}>
       <div>
         <h2>Task Details</h2>
-
-        <div className="detailed-task">
-          <ul className="detailed-task__param-list">
-            <li>
-              <h3>{task.title}</h3>
-              <span>{task.uniqueName}</span>
-            </li>
-            <li>
-              <div className="detailed-task__type">
+        <Formik
+          initialValues={{
+            title: task.title,
+            uniqueName: task.uniqueName,
+            selectedType: task.type,
+            color: ''
+          }}
+          onSubmit={(
+            values: Values,
+            {setSubmitting}: FormikHelpers<Values>
+          ) => {
+            setSubmitting(false)
+          }}
+        >
+          {({values}) => (
+            <Form>
+              <div className="field-group">
+                <label htmlFor="title">{task.title}</label>
+                <Field
+                  id="title"
+                  name="title"
+                  placeholder="...Add what you want to do"/>
+              </div>
+              <div className="field-group">
+                <label htmlFor="uniqueName">{task.uniqueName}</label>
+                <Field
+                  id="uniqueName"
+                  name="uniqueName"
+                  placeholder="Add special name"/>
+              </div>
+              <div className="field-group">
+                <p>Task types</p>
                 <ControlledSelect/>
               </div>
-            </li>
-            <li>
-              <div>{task.color}</div>
-            </li>
-            <li>
-              <p>{task.description}</p>
-            </li>
-          </ul>
-        </div>
+              <div className="field-group">
+                <label htmlFor="color">Change color</label>
+                <Field
+                  id="color"
+                  name="color"
+                  component={ColorPickerField}
+                />
+              </div>
+            </Form>
+          )}
+        </Formik>
       </div>
 
       <div className="bottom">

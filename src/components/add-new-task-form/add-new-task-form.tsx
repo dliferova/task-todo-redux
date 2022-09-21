@@ -1,14 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import ColorPickerField from 'material-ui-color-picker';
 import {Formik, FormikHelpers, Form, Field} from 'formik';
 import {newTaskAdded} from "../../store/actions";
 import Button from '@material-ui/core/Button';
+import ControlledSelect from "../../ui/select/select";
+import types from "../../data";
+import MenuItem from "@material-ui/core/MenuItem";
 
 export interface Values {
   title: string,
   uniqueName: string,
-  picked: string,
+  selectedType: string,
   color: string
 }
 
@@ -18,14 +21,12 @@ type AddNewTaskFormPropsType = {
 
 const AddNewTaskForm = ({onFormSubmit}: AddNewTaskFormPropsType) => {
 
-
   return (
-
     <Formik
       initialValues={{
         title: '',
         uniqueName: '',
-        picked: '',
+        selectedType: '',
         color: ''
       }}
       onSubmit={(
@@ -52,40 +53,9 @@ const AddNewTaskForm = ({onFormSubmit}: AddNewTaskFormPropsType) => {
               name="uniqueName"
               placeholder="Add special name"/>
           </div>
-          <div className="field-group" id="radio-group">
+          <div className="field-group">
             <p>Task types</p>
-            <ul className="types-list" role="group" aria-labelledby="radio-group">
-              <li>
-                <label>
-                  <Field type="radio" name="picked" value="personal"/>
-                  Personal task
-                </label>
-              </li>
-              <li>
-                <label>
-                  <Field type="radio" name="picked" value="marketing"/>
-                  Marketing task
-                </label>
-              </li>
-              <li>
-                <label>
-                  <Field type="radio" name="picked" value="sales"/>
-                  Sales task
-                </label>
-              </li>
-              <li>
-                <label>
-                  <Field type="radio" name="picked" value="development"/>
-                  Development task
-                </label>
-              </li>
-              <li>
-                <label>
-                  <Field type="radio" name="picked" value="hr"/>
-                  HR task
-                </label>
-              </li>
-            </ul>
+            <ControlledSelect/>
           </div>
           <div className="field-group">
             <label htmlFor="color">Change color</label>

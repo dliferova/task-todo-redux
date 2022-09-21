@@ -6,10 +6,10 @@ import {subtaskDeleted} from "../../store/actions";
 import {useDispatch} from "react-redux";
 
 type SubtaskListProps = {
-  parentTask: Task
+  children: Task[] | null;
 }
 
-const SubtaskList = ({parentTask}: SubtaskListProps) => {
+const SubtaskList = ({children}: SubtaskListProps) => {
   const dispatch = useDispatch();
 
   const handleDelete = (id: string) => {
@@ -29,7 +29,7 @@ const SubtaskList = ({parentTask}: SubtaskListProps) => {
       <div>
         <h2>Subtask List</h2>
         <ul className="task-list">
-          {parentTask.children?.map((item, index) =>
+          {children?.map((item, index) =>
             <TaskComponent onDelete={handleDelete} key={index} task={item}/>
           )}
         </ul>

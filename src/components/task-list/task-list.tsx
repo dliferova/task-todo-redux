@@ -3,25 +3,26 @@ import './styles.css';
 import {useDispatch} from "react-redux";
 import Box from "@material-ui/core/Box";
 import Button from '@material-ui/core/Button';
-import TaskComponent from "../task/task-component";
 import Modal from "@material-ui/core/Modal";
 import NewTaskModal from "../modal/modal";
 import {Task} from '../../types/task';
 import {Values} from "../add-new-task-form/add-new-task-form";
 import {newTaskAdded, taskDeleted} from "../../store/actions";
+import TaskComponent from "../task/task-component";
 
 type TaskListProps = {
-  tasks: Task[]
+  tasks: Task[],
 }
 
 const TaskList = (props: TaskListProps): JSX.Element => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values: Values) => {
+    console.log(values)
     dispatch(newTaskAdded({
       title: values.title,
       uniqueName: values.uniqueName,
-      picked: values.picked,
+      selectedType: values.selectedType,
       color: values.color
     }));
   }

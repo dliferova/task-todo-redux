@@ -14,6 +14,7 @@ import {nanoid} from "nanoid";
 type StateTypes = {
   tasks: Task[],
   detailedTaskId: string | null,
+  detailedSubtaskId: string | null,
 }
 
 const initialState: StateTypes = {
@@ -21,7 +22,7 @@ const initialState: StateTypes = {
     id: 'X1CEbGsHm23FHS_63VJE8',
     color: '',
     description: 'Default task description',
-    picked: 'personal',
+    type: 'personal',
     title: 'task1',
     uniqueName: 'task1',
     children: [
@@ -29,7 +30,7 @@ const initialState: StateTypes = {
         id: 'X1CEbGs8',
         color: '',
         description: 'Default subtask description',
-        picked: 'personal',
+        type: 'personal',
         title: 'subtask1',
         uniqueName: 'subtask1',
         children: null
@@ -38,7 +39,7 @@ const initialState: StateTypes = {
         id: 'X1Cinn',
         color: '',
         description: 'Default task description',
-        picked: 'personal',
+        type: 'personal',
         title: 'subtask2',
         uniqueName: 'subtask2',
         children: null
@@ -49,12 +50,13 @@ const initialState: StateTypes = {
       id: 'cbzVYQX_lubakjh9CoWsH',
       color: '',
       description: 'Default subtask description',
-      picked: 'personal',
+      type: 'personal',
       title: 'task2',
       uniqueName: 'task2',
       children: []
     }],
   detailedTaskId: null,
+  detailedSubtaskId: null,
 }
 
 const createNewTask = (data: NewTaskRequest, isSubtask: Boolean): Task => {
@@ -62,7 +64,7 @@ const createNewTask = (data: NewTaskRequest, isSubtask: Boolean): Task => {
     id: nanoid(),
     color: data.color,
     description: "Default task description",
-    picked: data.picked,
+    type: data.selectedType,
     title: data.title,
     uniqueName: data.uniqueName,
     children: isSubtask ? null : []
