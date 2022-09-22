@@ -52,17 +52,17 @@ const TaskDetailed = ({task}: TaskDetailedProps) => {
           <ul className="detailed-task__param-list">
             <li>
               <p className="detailed-task__category">Task title</p>
-              <input className="detailed-task__value" value={task.title}/>
+              <input className="detailed-task__value" value={task.title} readOnly/>
             </li>
 
             <li>
               <p className="detailed-task__category">Unique Name</p>
-              <input className="detailed-task__value" value={task.uniqueName}/>
+              <input className="detailed-task__value" value={task.uniqueName} readOnly/>
             </li>
 
             <li>
               <p className="detailed-task__category">Type</p>
-              <input className="detailed-task__value" value={task.type}/>
+              <input className="detailed-task__value" value={task.type} readOnly/>
             </li>
 
             <li>

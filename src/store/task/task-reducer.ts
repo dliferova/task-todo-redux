@@ -22,26 +22,26 @@ const initialState: StateTypes = {
   tasks: [{
     id: 'X1CEbGsHm23FHS_63VJE8',
     color: '',
-    description: 'Task 1 description',
-    type: 'personal',
-    title: 'task1',
+    description: 'Create your not-to-do list',
+    type: 'Personal task',
+    title: 'Plan you time',
     uniqueName: 'task1',
     children: [
       {
         id: 'X1CEbGs8',
         color: '',
-        description: 'Default subtask description',
-        type: 'personal',
-        title: 'subtask1',
+        description: 'Set time for yourself',
+        type: 'Personal task',
+        title: 'Allow for flexibility',
         uniqueName: 'subtask1',
         children: null
       },
       {
         id: 'X1Cinn',
         color: '',
-        description: 'Default task description',
-        type: 'personal',
-        title: 'subtask2',
+        description: 'Plan and book your holidays in advance',
+        type: 'Personal task',
+        title: 'Give yourself some space',
         uniqueName: 'subtask2',
         children: null
       }
@@ -50,9 +50,9 @@ const initialState: StateTypes = {
     {
       id: 'cbzVYQX_lubakjh9CoWsH',
       color: '',
-      description: 'Task 2 description',
-      type: 'personal',
-      title: 'task2',
+      description: 'Work on a side project',
+      type: 'Development task',
+      title: 'Work on a side project',
       uniqueName: 'task2',
       children: []
     }],
