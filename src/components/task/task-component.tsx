@@ -1,13 +1,11 @@
 import React from 'react';
 import './styles.css';
-import {useDispatch} from "react-redux";
 import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Menu, {MenuProps} from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {Task} from "../../types/task";
-import {detailedTaskOpened} from "../../store/actions";
 
 const StyledMenu = withStyles({
   paper: {
@@ -43,11 +41,11 @@ const StyledMenuItem = withStyles((theme) => ({
 interface TaskComponentProps {
   task: Task,
   onDelete: (id: string) => void,
+  onClick: (id: string) => void,
 }
 
 const TaskComponent = (props: TaskComponentProps) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-  const dispatch = useDispatch();
 
   const children = props.task.children ? props.task.children : [];
 
@@ -60,7 +58,7 @@ const TaskComponent = (props: TaskComponentProps) => {
   };
 
   const handleClickMenu = () => {
-    dispatch(detailedTaskOpened(props.task.id))
+    props.onClick(props.task.id)
   }
 
   return (

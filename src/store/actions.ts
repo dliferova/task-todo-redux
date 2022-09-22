@@ -8,11 +8,13 @@ export enum ActionType {
   TaskDeleted = 'task/task-deleted',
   SubtaskDeleted = 'subtask/subtask-deleted',
   DetailedTaskOpen = 'task/detailed-task-open',
+  DetailedSubtaskOpen = 'subtask/detailed-subtask-open'
 }
 
 export interface NewTaskRequest {
   title: string,
   uniqueName: string,
+  description: string,
   selectedType: string,
   color: string
 }
@@ -67,6 +69,15 @@ export const detailedTaskOpened = createAction(
   (taskId: string) => ({
     payload: {
       taskId,
+    }
+  })
+)
+
+export const detailedSubtaskOpened = createAction(
+  ActionType.DetailedSubtaskOpen,
+  (subtaskId: string) => ({
+    payload: {
+      subtaskId,
     }
   })
 )

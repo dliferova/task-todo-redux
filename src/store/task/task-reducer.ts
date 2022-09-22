@@ -1,6 +1,7 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {Task} from '../../types/task';
 import {
+  detailedSubtaskOpened,
   detailedTaskOpened,
   newSubtaskAdded,
   newTaskAdded,
@@ -21,7 +22,7 @@ const initialState: StateTypes = {
   tasks: [{
     id: 'X1CEbGsHm23FHS_63VJE8',
     color: '',
-    description: 'Default task description',
+    description: 'Task 1 description',
     type: 'personal',
     title: 'task1',
     uniqueName: 'task1',
@@ -49,7 +50,7 @@ const initialState: StateTypes = {
     {
       id: 'cbzVYQX_lubakjh9CoWsH',
       color: '',
-      description: 'Default subtask description',
+      description: 'Task 2 description',
       type: 'personal',
       title: 'task2',
       uniqueName: 'task2',
@@ -63,7 +64,7 @@ const createNewTask = (data: NewTaskRequest, isSubtask: Boolean): Task => {
   return {
     id: nanoid(),
     color: data.color,
-    description: "Default task description",
+    description: data.description,
     type: data.selectedType,
     title: data.title,
     uniqueName: data.uniqueName,
@@ -86,7 +87,11 @@ export const tasksReducer = createReducer(initialState, (builder) => {
       }
     })
     .addCase(detailedTaskOpened, (state, action) => {
-      state.detailedTaskId = action.payload.taskId
+      state.detailedTaskId = action.payload.taskId;
+      state.detailedSubtaskId = null
+    })
+    .addCase(detailedSubtaskOpened, (state, action) => {
+      state.detailedSubtaskId = action.payload.subtaskId
     })
     .addCase(taskUpdated, (state, action) => {
       state.tasks = updateTasks(state.tasks, action.payload.updatedTask);

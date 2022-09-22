@@ -4,6 +4,6 @@ export type Task = {
   uniqueName: string,
   type: string,
   color: string,
-  description?: string,
+  description: string,
   children: Task[] | null
 }

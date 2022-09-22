@@ -7,7 +7,7 @@ import Modal from "@material-ui/core/Modal";
 import NewTaskModal from "../modal/modal";
 import {Task} from '../../types/task';
 import {Values} from "../add-new-task-form/add-new-task-form";
-import {newTaskAdded, taskDeleted} from "../../store/actions";
+import {detailedTaskOpened, newTaskAdded, taskDeleted} from "../../store/actions";
 import TaskComponent from "../task/task-component";
 
 type TaskListProps = {
@@ -18,10 +18,10 @@ const TaskList = (props: TaskListProps): JSX.Element => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values: Values) => {
-    console.log(values)
     dispatch(newTaskAdded({
       title: values.title,
       uniqueName: values.uniqueName,
+      description: values.description,
       selectedType: values.selectedType,
       color: values.color
     }));
@@ -41,6 +41,10 @@ const TaskList = (props: TaskListProps): JSX.Element => {
    dispatch(taskDeleted(id))
   }
 
+  const handleTaskClick = (id: string) => {
+    dispatch(detailedTaskOpened(id))
+  }
+
   return (
     <Box
       style={{
@@ -54,7 +58,7 @@ const TaskList = (props: TaskListProps): JSX.Element => {
         <h2>Task List</h2>
         <ul className="task-list">
           {props.tasks.map((item, index) =>
-            <TaskComponent onDelete={handleDelete} key={index} task={item}/>
+            <TaskComponent onClick={handleTaskClick} onDelete={handleDelete} key={index} task={item}/>
           )}
         </ul>
       </div>

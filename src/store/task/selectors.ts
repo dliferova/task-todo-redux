@@ -20,3 +20,20 @@ export const getDetailedTask = (state: State): Task | null => {
   }
   return null;
 }
+
+export const getDetailedSubtask = (state: State): Task | null => {
+  const tasksState = state[NameSpace.Tasks]
+
+  for (let i = 0; i < tasksState.tasks.length; i++) {
+    const task = tasksState.tasks[i];
+    if (task.id === tasksState.detailedSubtaskId) {
+      return task
+    } else {
+      const found = task.children?.find(subtask => subtask.id === tasksState.detailedSubtaskId)
+      if (found) {
+        return found
+      }
+    }
+  }
+  return null;
+}

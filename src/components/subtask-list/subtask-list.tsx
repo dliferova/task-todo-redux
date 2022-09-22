@@ -2,7 +2,7 @@ import React from 'react';
 import Box from "@material-ui/core/Box";
 import {Task} from "../../types/task";
 import TaskComponent from "../task/task-component";
-import {subtaskDeleted} from "../../store/actions";
+import {detailedSubtaskOpened, subtaskDeleted} from "../../store/actions";
 import {useDispatch} from "react-redux";
 
 type SubtaskListProps = {
@@ -14,6 +14,10 @@ const SubtaskList = ({children}: SubtaskListProps) => {
 
   const handleDelete = (id: string) => {
     dispatch(subtaskDeleted(id))
+  }
+
+  const handleClick = (id: string) => {
+    dispatch(detailedSubtaskOpened(id))
   }
 
   return (
@@ -30,7 +34,7 @@ const SubtaskList = ({children}: SubtaskListProps) => {
         <h2>Subtask List</h2>
         <ul className="task-list">
           {children?.map((item, index) =>
-            <TaskComponent onDelete={handleDelete} key={index} task={item}/>
+            <TaskComponent onClick={handleClick} onDelete={handleDelete} key={index} task={item}/>
           )}
         </ul>
       </div>
