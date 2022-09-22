@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import './styles.css';
 import {Container} from "@material-ui/core";
@@ -10,8 +10,8 @@ import SubtaskList from "../../subtask-list/subtask-list";
 const Main = () => {
   const tasks = useSelector(getTaskList);
 
-  const detailedTask = useSelector(getDetailedTask); //null | string
-  const detailedSubtask = useSelector(getDetailedSubtask); //null | string
+  const detailedTask = useSelector(getDetailedTask);
+  const detailedSubtask = useSelector(getDetailedSubtask);
 
   const taskDetailed = detailedSubtask !== null ? detailedSubtask : detailedTask
 
