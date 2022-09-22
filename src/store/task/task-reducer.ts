@@ -11,6 +11,7 @@ import {
   taskUpdated
 } from "../actions";
 import {nanoid} from "nanoid";
+import {findTask} from "../../utils";
 
 type StateTypes = {
   tasks: Task[],
@@ -94,10 +95,11 @@ export const tasksReducer = createReducer(initialState, (builder) => {
       state.detailedSubtaskId = action.payload.subtaskId
     })
     .addCase(taskUpdated, (state, action) => {
-      state.tasks = updateTasks(state.tasks, action.payload.updatedTask);
-
-      if (state.detailedTaskId === action.payload.updatedTask.id) {
-        state.detailedTaskId = action.payload.updatedTask.id
+      const taskToEdit = findTask(state.tasks, action.payload.taskId);
+      if (taskToEdit) {
+        taskToEdit.title = action.payload.title
+        taskToEdit.uniqueName = action.payload.uniqueName
+        taskToEdit.type = action.payload.selectedType
       }
     })
     .addCase(newSubtaskAdded, (state, action) => {

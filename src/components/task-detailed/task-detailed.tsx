@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import './styles.css';
 import {useDispatch} from "react-redux";
 import Button from "@material-ui/core/Button";
@@ -6,11 +6,35 @@ import Box from "@material-ui/core/Box";
 import {Task} from "../../types/task";
 import NewTaskModal from "../modal/modal";
 import Modal from "@material-ui/core/Modal";
+import {newSubtaskAdded, taskUpdated} from "../../store/actions";
+import {Formik, Field, Form, FormikHelpers, useFormikContext} from 'formik';
+import ControlledSelect from "../../ui/select/select";
 import {Values} from "../add-new-task-form/add-new-task-form";
-import {newSubtaskAdded} from "../../store/actions";
+
+interface FormValues {
+  title: string,
+  uniqueName: string,
+  selectedType: string,
+}
 
 type TaskDetailedProps = {
   task: Task,
+}
+
+type AutoUpdateProps = {
+  taskId: string
+}
+
+const AutoUpdate = ({taskId}: AutoUpdateProps) => {
+  const dispatch = useDispatch();
+
+  const {values, submitForm} = useFormikContext<FormValues>();
+
+  React.useEffect(() => {
+    dispatch(taskUpdated(taskId, values.title, values.uniqueName, values.selectedType))
+  }, [values, submitForm]);
+
+  return null;
 }
 
 const TaskDetailed = ({task}: TaskDetailedProps) => {
@@ -48,29 +72,31 @@ const TaskDetailed = ({task}: TaskDetailedProps) => {
       }}>
       <div>
         <h2>Task Details</h2>
-        <form>
-          <ul className="detailed-task__param-list">
-            <li>
-              <p className="detailed-task__category">Task title</p>
-              <input className="detailed-task__value" value={task.title} readOnly/>
-            </li>
+        <Formik
+          enableReinitialize={true}
+          initialValues={{
+            title: task.title,
+            uniqueName: task.uniqueName,
+            selectedType: task.type,
+          }}
+          onSubmit={() => {}}
+        >
+          <Form>
+            <label htmlFor="title" className="detailed-task__category">Task title</label>
+            <Field id="title" name="title" className="detailed-task__value"/>
 
-            <li>
-              <p className="detailed-task__category">Unique Name</p>
-              <input className="detailed-task__value" value={task.uniqueName} readOnly/>
-            </li>
+            <label htmlFor="uniqueName" className="detailed-task__category">Unique Name</label>
+            <Field id="uniqueName" name="uniqueName" className="detailed-task__value"/>
 
-            <li>
-              <p className="detailed-task__category">Type</p>
-              <input className="detailed-task__value" value={task.type} readOnly/>
-            </li>
+            <label htmlFor="selectedType" className="detailed-task__category">Type</label>
+            <ControlledSelect/>
 
-            <li>
-              <p className="detailed-task__category detailed-task__category_not-changed">Description</p>
-              <p>{task.description}</p>
-            </li>
-          </ul>
-        </form>
+            <p className="detailed-task__category detailed-task__category_not-changed">Description</p>
+            <p>{task.description}</p>
+            <AutoUpdate taskId={task.id}/>
+          </Form>
+        </Formik>
+
       </div>
 
       <div className="bottom">

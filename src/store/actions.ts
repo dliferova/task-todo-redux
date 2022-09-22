@@ -39,9 +39,12 @@ export const newSubtaskAdded = createAction(
 
 export const taskUpdated = createAction(
   ActionType.TaskUpdated,
-  (updatedTask: Task) => ({
+  (taskId, title, uniqueName, selectedType) => ({
     payload: {
-      updatedTask: updatedTask,
+      taskId,
+      title,
+      uniqueName,
+      selectedType
     },
   })
 )
