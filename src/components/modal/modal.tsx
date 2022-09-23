@@ -1,7 +1,6 @@
 import React from 'react';
 import './styles.css';
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
-import CloseIcon from '@material-ui/icons/Close';
 import AddNewTaskForm, {Values} from "../add-new-task-form/add-new-task-form";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -30,13 +29,6 @@ const NewTaskModal = React.forwardRef(({onFormSubmit}: NewTaskModalPropsType, re
   return (
     <div className={classes.paper}>
       <div className="modal__wrapper">
-        <CloseIcon
-          className="modal__icon"
-          color="primary"
-          style={{
-            cursor: 'pointer'
-          }}
-        />
         <h2 id="simple-modal-title">Add new task</h2>
         <AddNewTaskForm onFormSubmit={onFormSubmit}/>
       </div>

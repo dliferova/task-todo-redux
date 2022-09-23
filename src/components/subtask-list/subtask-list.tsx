@@ -1,4 +1,5 @@
 import React from 'react';
+import './styles.css';
 import Box from "@material-ui/core/Box";
 import {Task} from "../../types/task";
 import TaskComponent from "../task/task-component";
@@ -32,14 +33,19 @@ const SubtaskList = ({children}: SubtaskListProps) => {
       }}>
       <div>
         <h2>Subtask List</h2>
-        <ul className="task-list">
-          {children?.map((item, index) =>
-            <TaskComponent onClick={handleClick} onDelete={handleDelete} key={index} task={item}/>
-          )}
-        </ul>
+        {children && children.length > 0 ?
+          <>
+            <ul className="task-list">
+              {children?.map((item, index) =>
+                <TaskComponent onClick={handleClick} onDelete={handleDelete} key={index} task={item}/>
+              )}
+            </ul>
+          </>
+          :
+          <p className="empty-list">There are no items ... Add subtask to main task</p>
+        }
       </div>
     </Box>
-
   );
 };
 

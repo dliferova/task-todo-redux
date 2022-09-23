@@ -120,17 +120,3 @@ export const tasksReducer = createReducer(initialState, (builder) => {
       }
     })
 })
-
-const updateTasks = (tasks: Task[], updatedTask: Task): Task[] => {
-  const index = tasks.findIndex((task) => task.id === updatedTask.id);
-
-  if (index === -1) {
-    return tasks
-  }
-
-  return [
-    ...tasks.slice(0, index),
-    updatedTask,
-    ...tasks.slice(index + 1)
-  ];
-};
