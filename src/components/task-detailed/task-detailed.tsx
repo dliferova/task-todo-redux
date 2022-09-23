@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React from 'react';
 import './styles.css';
 import {useDispatch} from "react-redux";
 import Button from "@material-ui/core/Button";
@@ -7,7 +7,7 @@ import {Task} from "../../types/task";
 import NewTaskModal from "../modal/modal";
 import Modal from "@material-ui/core/Modal";
 import {newSubtaskAdded, taskUpdated} from "../../store/actions";
-import {Formik, Field, Form, FormikHelpers, useFormikContext} from 'formik';
+import {Formik, Field, Form, useFormikContext} from 'formik';
 import * as Yup from 'yup';
 import ControlledSelect from "../../ui/select/select";
 import {Values} from "../add-new-task-form/add-new-task-form";
@@ -37,13 +37,6 @@ const SignupSchema = Yup.object().shape({
     .required('Unique name required'),
   selectedType: Yup.string().required('Required'),
 });
-
-const ValidateField = (value: any) => {
-  let error;
-  if (value === '') {
-    error = 'Should have value';
-  }
-}
 
 const AutoUpdate = ({taskId}: AutoUpdateProps) => {
   const dispatch = useDispatch();
@@ -102,19 +95,19 @@ const TaskDetailed = ({task}: TaskDetailedProps) => {
           validationSchema={SignupSchema}
           onSubmit={() => {}}
         >
-          {({ errors, touched, isValidating }) => (
+          {({ errors, touched}) => (
             <Form>
               <ul className="detailed-task__param-list">
                 <li>
                   <label htmlFor="title" className="detailed-task__category">Task title</label>
-                  <Field id="title" name="title" className="detailed-task__value" validate={ValidateField}/>
+                  <Field id="title" name="title" className="detailed-task__value"/>
                   {errors.title && touched.title ? (
                     <div className="field-error">{errors.title}</div>
                   ) : null}
                 </li>
                 <li>
                   <label htmlFor="uniqueName" className="detailed-task__category">Unique Name</label>
-                  <Field id="uniqueName" name="uniqueName" className="detailed-task__value" validate={ValidateField}/>
+                  <Field id="uniqueName" name="uniqueName" className="detailed-task__value" />
                   {errors.uniqueName && touched.uniqueName ? (
                     <div className="field-error">{errors.uniqueName}</div>
                   ) : null}
