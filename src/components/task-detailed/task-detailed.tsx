@@ -8,6 +8,7 @@ import NewTaskModal from "../modal/modal";
 import Modal from "@material-ui/core/Modal";
 import {newSubtaskAdded, taskUpdated} from "../../store/actions";
 import {Formik, Field, Form, FormikHelpers, useFormikContext} from 'formik';
+import * as Yup from 'yup';
 import ControlledSelect from "../../ui/select/select";
 import {Values} from "../add-new-task-form/add-new-task-form";
 
@@ -23,6 +24,25 @@ type TaskDetailedProps = {
 
 type AutoUpdateProps = {
   taskId: string
+}
+
+const SignupSchema = Yup.object().shape({
+  title: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Title required'),
+  uniqueName: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Unique name required'),
+  selectedType: Yup.string().required('Required'),
+});
+
+const ValidateField = (value: any) => {
+  let error;
+  if (value === '') {
+    error = 'Should have value';
+  }
 }
 
 const AutoUpdate = ({taskId}: AutoUpdateProps) => {
@@ -79,22 +99,41 @@ const TaskDetailed = ({task}: TaskDetailedProps) => {
             uniqueName: task.uniqueName,
             selectedType: task.type,
           }}
+          validationSchema={SignupSchema}
           onSubmit={() => {}}
         >
-          <Form>
-            <label htmlFor="title" className="detailed-task__category">Task title</label>
-            <Field id="title" name="title" className="detailed-task__value"/>
-
-            <label htmlFor="uniqueName" className="detailed-task__category">Unique Name</label>
-            <Field id="uniqueName" name="uniqueName" className="detailed-task__value"/>
-
-            <label htmlFor="selectedType" className="detailed-task__category">Type</label>
-            <ControlledSelect/>
-
-            <p className="detailed-task__category detailed-task__category_not-changed">Description</p>
-            <p>{task.description}</p>
-            <AutoUpdate taskId={task.id}/>
-          </Form>
+          {({ errors, touched, isValidating }) => (
+            <Form>
+              <ul className="detailed-task__param-list">
+                <li>
+                  <label htmlFor="title" className="detailed-task__category">Task title</label>
+                  <Field id="title" name="title" className="detailed-task__value" validate={ValidateField}/>
+                  {errors.title && touched.title ? (
+                    <div className="field-error">{errors.title}</div>
+                  ) : null}
+                </li>
+                <li>
+                  <label htmlFor="uniqueName" className="detailed-task__category">Unique Name</label>
+                  <Field id="uniqueName" name="uniqueName" className="detailed-task__value" validate={ValidateField}/>
+                  {errors.uniqueName && touched.uniqueName ? (
+                    <div className="field-error">{errors.uniqueName}</div>
+                  ) : null}
+                </li>
+                <li>
+                  <label htmlFor="selectedType" className="detailed-task__category">Type</label>
+                  <ControlledSelect/>
+                  {errors.selectedType && touched.selectedType ? (
+                    <div className="field-error">{errors.selectedType}</div>
+                  ) : null}
+                </li>
+                <li>
+                  <p className="detailed-task__category detailed-task__category_not-changed">Description</p>
+                  <p>{task.description}</p>
+                </li>
+              </ul>
+              <AutoUpdate taskId={task.id}/>
+            </Form>
+          )}
         </Formik>
 
       </div>
